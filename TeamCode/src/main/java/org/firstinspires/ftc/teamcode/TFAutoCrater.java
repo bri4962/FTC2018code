@@ -52,7 +52,7 @@ import java.util.List;
 //@Disabled
 public class TFAutoCrater extends LinearOpMode {
     Hardware4962 robot= new Hardware4962();
-
+//test
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
