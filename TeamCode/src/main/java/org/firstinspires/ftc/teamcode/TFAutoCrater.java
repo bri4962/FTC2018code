@@ -48,7 +48,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@Autonomous(name = "TF Auto Crater", group = "TFAuto")
+@Autonomous(name = "TF Crater - old", group = "TFAuto")
 //@Disabled
 public class TFAutoCrater extends LinearOpMode {
     Hardware4962 robot= new Hardware4962();
@@ -89,7 +89,13 @@ public class TFAutoCrater extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
-        waitForStart();
+        // Do not use waitForStart() if you have Motorola E4 phones.
+        //waitForStart();
+        while (!opModeIsActive() && !isStopRequested()) {
+            telemetry.addData("status", "waiting for start command...");
+            telemetry.update();
+        }
+        //waitForStart();
 
         // reset the encoders and get the starting angle
         robot.TurnOffEncoders();

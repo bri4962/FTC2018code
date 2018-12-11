@@ -29,11 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.drm.DrmRights;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -50,11 +47,11 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import java.util.List;
 
 
-@Autonomous(name = "TF Depot Crater - old", group = "TFAuto")
+@Autonomous(name = "TF Crater - double sample", group = "TFAuto")
 //@Disabled
-public class TFAutoDepot extends LinearOpMode {
+public class TFAutoCrater_2sample extends LinearOpMode {
     Hardware4962 robot= new Hardware4962();
-
+//test
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -91,7 +88,6 @@ public class TFAutoDepot extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
-
         // Do not use waitForStart() if you have Motorola E4 phones.
         //waitForStart();
         while (!opModeIsActive() && !isStopRequested()) {
@@ -135,13 +131,13 @@ public class TFAutoDepot extends LinearOpMode {
                                     position="center";
                                 }
                             }
-
                         }
-                        telemetry.addData("Position: ",position);
-                        telemetry.update();
+
+                      telemetry.update();
                     }
                 }
             }
+            // elevator lower
 
             robot.ElevatorUp(false);
             while (robot.topLimit.getState() && opModeIsActive()){
@@ -154,71 +150,73 @@ public class TFAutoDepot extends LinearOpMode {
                 telemetry.update();
             }
             robot.elevatorMotor.setPower(0);
+            // done with elevator
 
+            // get starting angle
             angles = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             float startAngle = angles.firstAngle;
+            DriveOnHeading(startAngle, 10, .7, .06);
+            robot.StopDriving();
 
             if (position=="left") {
-                DriveOnHeading(startAngle+30, 45, .7, .06);
-                RotateToHeading(startAngle-45,.05);
-                DriveOnHeading(startAngle-45, 16, .7, .06);
+                RotateToHeading(startAngle+55,.05);
+                DriveOnHeading(startAngle+55, 20, .7, .06);
                 robot.StopDriving();
-                robot.marker.setPosition(0.7);
-                DriveOnHeadingBackwards(startAngle-45, 14,-.2,.06); //FIXME
+                DriveOnHeadingBackwards(startAngle+55, 20, -.7, .06);
+                robot.StopDriving();
             } else if (position=="right"){
-                DriveOnHeading(startAngle-30, 45, .7, .06);
-                DriveOnHeading(startAngle+45, 16, .7, .06);
-                robot.marker.setPosition(0.7);
-                DriveOnHeading(startAngle+45, 4, .7, .06);
+                RotateToHeading(startAngle-55,.05);
+                DriveOnHeading(startAngle-55, 20, .7, .06);
                 robot.StopDriving();
-                sleep(2000);
-                DriveOnHeadingBackwards(startAngle+45, 4,-.2,.06);
+                DriveOnHeadingBackwards(startAngle-55, 20, -.7, .06);
                 robot.StopDriving();
-                sleep(1000);
-                DriveOnHeadingBackwards(startAngle+52, 71,-.7,.06);
+
             } else {
-                DriveOnHeading(startAngle, 56, .7, .06);
+
+                DriveOnHeading(startAngle, 16, .7, .06);
                 robot.StopDriving();
-                robot.marker.setPosition(0.7);
-                sleep(2000);
-                DriveOnHeadingBackwards(startAngle+48, 70,-.7,.06);
+                DriveOnHeadingBackwards(startAngle, 16, -.7, .06);
                 robot.StopDriving();
             }
             robot.StopDriving();
-/*
-            robot.ElevatorUp(false);
-            while (robot.topLimit.getState() && opModeIsActive()){
-                robot.ElevatorUp(false);
-                angles = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-                telemetry.clear();
-                telemetry.addData("heading: ", angles.firstAngle);
-                telemetry.addData("switch: ", robot.topLimit.getState());
-                telemetry.update();
-            }
-            angles = robot.gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            float startAngle = angles.firstAngle;
-
-            */
-
-/* old AutoDepot:
-            DriveOnHeading(startAngle,67,.7,.06);
+            RotateToHeading(startAngle+75,.05);
+            DriveOnHeading(startAngle+75, 43, .7, .06);
             robot.StopDriving();
+            //towards depot
+            RotateToHeading(startAngle+130,.05);
+            DriveOnHeading(startAngle+130, 44, .7, .06);
             robot.marker.setPosition(0.7);
-            sleep(2000);
-
-            DriveOnHeadingBackwards(startAngle+55, 18,-.7,.06);
             robot.StopDriving();
-            */
-/* selection code:
+            sleep(1000);
+            //DriveOnHeadingBackwards(startAngle+135, 4, -.2, .06);
+            //TEMP
             if (position=="left") {
-                DriveOnHeading(startAngle-30, 40, .7, .06);
+                RotateToHeading(startAngle+220,.05);
+                DriveOnHeading(startAngle+220, 30, .7, .06);
+                robot.StopDriving();
+                DriveOnHeadingBackwards(startAngle+220, 30, -.7, .06);
+                robot.StopDriving();
             } else if (position=="right"){
-                DriveOnHeading(startAngle, 34, .7, .06);
+                RotateToHeading(startAngle+280,.05);
+                DriveOnHeading(startAngle+280, 30, .7, .06);
+                robot.StopDriving();
+                DriveOnHeadingBackwards(startAngle+280, 30, -.7, .06);
+                robot.StopDriving();
+
             } else {
-                DriveOnHeading(startAngle+30, 40, .7, .06);
+                RotateToHeading(startAngle+255,.05);
+                DriveOnHeading(startAngle+255, 30, .7, .06);
+                robot.StopDriving();
+                DriveOnHeadingBackwards(startAngle+255, 30, -.7, .06);
+                robot.StopDriving();
+
             }
-            */
+            RotateToHeading(startAngle+133,.05);
+            //END TEMP
+            //uncomment:
+            DriveOnHeadingBackwards(startAngle+133, 70, -.99, .06);
             robot.StopDriving();
+
         }
 
         if (tfod != null) {
