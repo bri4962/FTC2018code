@@ -51,13 +51,21 @@ public class TeleOp4962 extends LinearOpMode {
             float left = gamepad1.left_stick_y;
             float right = gamepad1.right_stick_y;
             double turbo = gamepad1.left_trigger;
+            boolean intakeIn = gamepad1.right_bumper;
+            boolean intakeOut = gamepad1.left_bumper;
             //boolean relicOut = gamepad1;
 
 
             // Gamepad 2 controls the mechanisms
 
-            float shoulder = -gamepad2.left_stick_y;
-            float hook = gamepad2.right_stick_y;
+            float elevator = -gamepad2.left_stick_y;
+            float arm = gamepad2.right_stick_y;
+            float shoulderDown = gamepad2.right_trigger;
+            float shoulderUp = gamepad2.left_trigger;
+            boolean boxUp = gamepad2.a;
+            boolean boxDown = gamepad2.b;
+
+
 
             // clip the right/left values so that the values never exceed +/- 1
 
@@ -75,7 +83,42 @@ public class TeleOp4962 extends LinearOpMode {
             //    left = left * (float) 0.5;
             //}
 
-            robot.elevatorMotor.setPower(shoulder);
+            if (intakeIn){
+                robot.intakeMotor.setPower(1);
+            }
+
+            if (intakeOut){
+                robot.intakeMotor.setPower(-1);
+            }
+
+            if (!intakeIn&&!intakeOut){
+                robot.intakeMotor.setPower(0);
+            }
+
+            robot.elevatorMotor.setPower(elevator);
+            robot.armMotor.setPower(arm);
+
+            if (shoulderDown > 0.1){
+                robot.shoulderMotor.setPower(-shoulderDown);
+            }
+
+            if (shoulderUp > 0.1) {
+                robot.shoulderMotor.setPower(shoulderUp);
+            }
+
+            if (shoulderDown <= 0.1 && shoulderUp <= 0.1) {
+                robot.shoulderMotor.setPower(0);
+            }
+
+            if (boxUp){
+                robot.wrist.setPosition(1);
+            }
+
+            if (boxDown){
+                robot.wrist.setPosition(.2);
+            }
+
+
             //robot.hook.setPower(hook);
             // clip the right/left values so that the values never exceed +/- 1
            // Rintake = Range.clip(Rintake, -1, 1);
@@ -96,7 +139,7 @@ public class TeleOp4962 extends LinearOpMode {
 
 
             telemetry.addData("Text", "*** Robot Data***");
-            telemetry.addData("Lift power","Lift:" + String.format("%.2f",(float) shoulder));
+            telemetry.addData("Lift power","Lift:" + String.format("%.2f",(float) elevator));
             //telemetry.addData("Right Servo","Right servo pos:" + String.format("%.2f", (float) rightArmPosition));
             //telemetry.addData("Left Servo","Leftt servo pos:" + String.format("%.2f", (float) leftArmPosition));
             telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));

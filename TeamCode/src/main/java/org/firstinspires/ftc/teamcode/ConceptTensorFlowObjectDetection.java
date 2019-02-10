@@ -100,8 +100,40 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start tracking");
         telemetry.update();
-        waitForStart();
+//        waitForStart();
 
+        if (tfod != null) {
+            tfod.activate();
+        }
+        String position = "missing";
+        while (!opModeIsActive() && !isStopRequested()) {
+            telemetry.addData("status", "waiting for start command...");
+
+            if (tfod != null) {
+                // getUpdatedRecognitions() will return null if no new information is available since
+                // the last time that call was made.
+                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+                if (updatedRecognitions != null) {
+                    telemetry.addData("# Object Detected", updatedRecognitions.size());
+                    for (Recognition recognition : updatedRecognitions) {
+                        double ang = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                        telemetry.addData("obj:", recognition.getLabel() + ang);
+                        if (recognition.getLabel() == "Gold Mineral") {
+                            if (ang > 15) {
+                                position = "right";
+                            } else if (ang < -15) {
+                                position = "left";
+                            } else {
+                                position = "center";
+                            }
+                        }
+                    }
+                    telemetry.addData("Gold position:", position);
+
+                }
+            }
+            telemetry.update();
+        }
         if (opModeIsActive()) {
             /** Activate Tensor Flow Object Detection. */
             if (tfod != null) {
@@ -115,38 +147,27 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
                         for (Recognition recognition : updatedRecognitions) {
                             double ang = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                             telemetry.addData("obj:",recognition.getLabel() + ang);
+                            if (recognition.getLabel()=="Gold Mineral"){
+                                if (ang>15){
+                                    position="right";
+                                }else if (ang<-15){
+                                    position="left";
+                                }else {
+                                    position="center";
+                                }
+                            }
                         }
-                      if (updatedRecognitions.size() == 3) {
-                        int goldMineralX = -1;
-                        int silverMineral1X = -1;
-                        int silverMineral2X = -1;
-                        for (Recognition recognition : updatedRecognitions) {
-                          if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
-                            goldMineralX = (int) recognition.getLeft();
-                          } else if (silverMineral1X == -1) {
-                            silverMineral1X = (int) recognition.getLeft();
-                          } else {
-                            silverMineral2X = (int) recognition.getLeft();
-                          }
-                        }
-                        if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
-                          if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Left");
-                          } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                            telemetry.addData("Gold Mineral Position", "Right");
-                          } else {
-                            telemetry.addData("Gold Mineral Position", "Center");
-                          }
-                        }
-                      }
-                      telemetry.update();
+                        telemetry.addData("Gold position:", position);
+
+                        telemetry.update();
                     }
                 }
             }
+
         }
 
         if (tfod != null) {

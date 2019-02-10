@@ -196,6 +196,7 @@ public class TFAutoDepot_coop extends LinearOpMode {
             robot.StopDriving();
 
         }
+        robot.marker.setPosition(0.2);
 
         if (tfod != null) {
             tfod.shutdown();

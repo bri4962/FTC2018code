@@ -112,7 +112,7 @@ public class TFAutoCrater_2sample extends LinearOpMode {
 
             String position = "missing";
 
-            while (opModeIsActive() && runtime.milliseconds() < 2000) {
+            while (opModeIsActive() && runtime.milliseconds() < 4000) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -159,10 +159,10 @@ public class TFAutoCrater_2sample extends LinearOpMode {
             robot.StopDriving();
 
             if (position=="left") {
-                RotateToHeading(startAngle+55,.05);
-                DriveOnHeading(startAngle+55, 20, .7, .06);
+                RotateToHeading(startAngle+52,.05);
+                DriveOnHeading(startAngle+52, 22, .7, .06);
                 robot.StopDriving();
-                DriveOnHeadingBackwards(startAngle+55, 20, -.7, .06);
+                DriveOnHeadingBackwards(startAngle+52, 22, -.7, .06);
                 robot.StopDriving();
             } else if (position=="right"){
                 RotateToHeading(startAngle-55,.05);
@@ -180,21 +180,22 @@ public class TFAutoCrater_2sample extends LinearOpMode {
             }
             robot.StopDriving();
             RotateToHeading(startAngle+75,.05);
-            DriveOnHeading(startAngle+75, 43, .7, .06);
+            DriveOnHeading(startAngle+75, 45, .7, .06);
             robot.StopDriving();
             //towards depot
             RotateToHeading(startAngle+130,.05);
-            DriveOnHeading(startAngle+130, 44, .7, .06);
+            DriveOnHeading(startAngle+130, 50, .7, .06);
             robot.marker.setPosition(0.7);
             robot.StopDriving();
             sleep(1000);
-            //DriveOnHeadingBackwards(startAngle+135, 4, -.2, .06);
+            DriveOnHeadingBackwards(startAngle+130, 6, -.5, .06);
+            robot.marker.setPosition(0.2);
             //TEMP
             if (position=="left") {
                 RotateToHeading(startAngle+220,.05);
-                DriveOnHeading(startAngle+220, 30, .7, .06);
+                DriveOnHeading(startAngle+220, 32, .7, .06);
                 robot.StopDriving();
-                DriveOnHeadingBackwards(startAngle+220, 30, -.7, .06);
+                DriveOnHeadingBackwards(startAngle+220, 32, -.7, .06);
                 robot.StopDriving();
             } else if (position=="right"){
                 RotateToHeading(startAngle+280,.05);
@@ -216,6 +217,7 @@ public class TFAutoCrater_2sample extends LinearOpMode {
             //uncomment:
             DriveOnHeadingBackwards(startAngle+133, 70, -.99, .06);
             robot.StopDriving();
+            robot.marker.setPosition(0.2);
 
         }
 

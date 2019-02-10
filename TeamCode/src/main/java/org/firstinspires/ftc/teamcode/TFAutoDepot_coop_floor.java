@@ -194,6 +194,7 @@ public class TFAutoDepot_coop_floor extends LinearOpMode {
             //robot.marker.setPosition(0);
             DriveOnHeadingBackwards(startAngle-45, 51,-.7,.06);
             robot.StopDriving();
+            robot.marker.setPosition(0.2);
 
         }
 

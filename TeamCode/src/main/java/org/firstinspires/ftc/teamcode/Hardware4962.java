@@ -41,8 +41,13 @@ public class Hardware4962 {
     public DcMotor rightbackMotor = null;
     public DcMotor leftbackMotor = null;
     public DcMotor elevatorMotor = null;
+    public DcMotor shoulderMotor = null;
+    public DcMotor armMotor= null;
+    public DcMotor intakeMotor = null;
+
    // public CRServo hook = null;
     public Servo marker= null;
+    public Servo wrist= null;
 
     // The IMU sensor object
     public BNO055IMU gyro = null;
@@ -74,11 +79,17 @@ public class Hardware4962 {
         rightbackMotor = hwMap.dcMotor.get("motor right back");
         leftbackMotor = hwMap.dcMotor.get("motor left back");
         elevatorMotor = hwMap.dcMotor.get("motor elevator");
+        shoulderMotor = hwMap.dcMotor.get("motor shoulder");
+        armMotor= hwMap.dcMotor.get("motor arm");
+        intakeMotor = hwMap.dcMotor.get("motor intake");
 
 
         // define servos
         marker = hwMap.servo.get("marker");
-        marker.setPosition(0);
+        marker.setPosition(0.15);
+
+        wrist = hwMap.servo.get("wrist");
+        wrist.setPosition(0);
 
         //limit switches
         topLimit = hwMap.digitalChannel.get("limit top");

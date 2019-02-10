@@ -112,7 +112,7 @@ public class TFAutoCrater_coop extends LinearOpMode {
 
             String position = "missing";
 
-            while (opModeIsActive() && runtime.milliseconds() < 2000) {
+            while (opModeIsActive() && runtime.milliseconds() < 3000) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -159,10 +159,10 @@ public class TFAutoCrater_coop extends LinearOpMode {
             robot.StopDriving();
 
             if (position=="left") {
-                RotateToHeading(startAngle+55,.05);
-                DriveOnHeading(startAngle+55, 20, .7, .06);
+                RotateToHeading(startAngle+52,.05);
+                DriveOnHeading(startAngle+52, 20, .7, .06);
                 robot.StopDriving();
-                DriveOnHeadingBackwards(startAngle+55, 20, -.7, .06);
+                DriveOnHeadingBackwards(startAngle+52, 20, -.7, .06);
                 robot.StopDriving();
             } else if (position=="right"){
                 RotateToHeading(startAngle-55,.05);
@@ -191,6 +191,7 @@ public class TFAutoCrater_coop extends LinearOpMode {
             //DriveOnHeadingBackwards(startAngle+135, 4, -.2, .06);
             DriveOnHeadingBackwards(startAngle+133, 70, -.99, .06);
             robot.StopDriving();
+            robot.marker.setPosition(0.2);
 
         }
 

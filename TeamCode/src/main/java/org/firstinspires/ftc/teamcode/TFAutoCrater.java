@@ -86,9 +86,6 @@ public class TFAutoCrater extends LinearOpMode {
         // use the Hardware4962 stuff that decribes the robot.
         robot.init(hardwareMap, telemetry);
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
-        telemetry.update();
         // Do not use waitForStart() if you have Motorola E4 phones.
         //waitForStart();
         while (!opModeIsActive() && !isStopRequested()) {
@@ -120,7 +117,7 @@ public class TFAutoCrater extends LinearOpMode {
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                       telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        for (Recognition recognition : updatedRecognitions) {
+                      for (Recognition recognition : updatedRecognitions) {
                             double ang = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                             telemetry.addData("obj:",recognition.getLabel() + ang);
                             if (recognition.getLabel()=="Gold Mineral"){
@@ -132,7 +129,8 @@ public class TFAutoCrater extends LinearOpMode {
                                     position="center";
                                 }
                             }
-                        }
+                      }
+                      telemetry.addData("Gold position:", position);
 
                       telemetry.update();
                     }
@@ -161,6 +159,7 @@ public class TFAutoCrater extends LinearOpMode {
                 DriveOnHeading(startAngle, 34, .7, .06);
             }
             robot.StopDriving();
+            robot.marker.setPosition(0.2);
         }
 
         if (tfod != null) {

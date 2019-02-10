@@ -191,6 +191,7 @@ public class TFAutoCrater_coop_floor extends LinearOpMode {
             //DriveOnHeadingBackwards(startAngle+135, 4, -.2, .06);
             DriveOnHeadingBackwards(startAngle+133, 70, -.99, .06);
             robot.StopDriving();
+            robot.marker.setPosition(0.2);
 
         }
 
